@@ -1,50 +1,59 @@
 # omise-react-native
-==========
 
-Please note that this is an unofficial Omise library for react-native.
-And please learn a security best practices from Omise's document before modifying code.
-
-- [Security Best Practice](https://www.omise.co/security-best-practices)
+Original repo: https://github.com/keeratita/omise-react-native
 
 ## Install
 
 ```sh
-$ npm install omise-react-native --save
+$ yarn add https://github.com/tnylee/omise-react-native.git
 ```
 
 ## Setup
-To set Omise public key and API version
 
 ```
 import Omise from 'omise-react-native';
-Omise.config('pkey_test_596un7xggnyo73nm7an', '2015-11-17');
+Omise.config('pkey_test_...', 'skey_test_...', '2017-11-12');
 ```
 
 ## Usage
 ### Create a token
 ```
 const data = await Omise.createToken({
-    'card': {
-        'name': 'JOHN DOE',
-        'city': 'Bangkok',
-        'postal_code': 10320,
-        'number': '4242424242424242',
-        'expiration_month': 10,
-        'expiration_year': 2018,
-        'security_code': 123
+    card: {
+        name: 'JOHN DOE',
+        city: 'Bangkok',
+        postal_code: 10320,
+        number: '4242424242424242',
+        expiration_month: 10,
+        expiration_year: 2018,
+        security_code: 123
     }
 });
 
-console.log("data", data);
+console.log('data', JSON.stringify(data));
 ```
 
 ### Create a source
 ```
 const data = await Omise.createSource(
-    'type': 'internet_banking_bbl',
-    'amount': 500000,
-    'currency': 'thb'
+    type: 'internet_banking_bbl',
+    amount: 500000,
+    currency: 'thb'
 });
 
-console.log("data", data);
+console.log('data', JSON.stringify(data));
+```
+
+### Create a charge
+```
+const data = await Omise.createCharge(
+    description: 'some description',
+    amount: 500000, // 5,000 baht
+    currency: 'thb',
+    capture: true,
+    card: omiseTokenId
+});
+
+if (data.paid) // success
+console.log('data', JSON.stringify(data));
 ```
