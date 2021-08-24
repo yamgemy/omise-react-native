@@ -10,8 +10,8 @@ class ReactNativeOmise {
     constructor() {
         this.createSource = this.createSource.bind(this);
         this.createToken = this.createToken.bind(this);
-        this.createCustomer = this.createCustomer.bing(this);
-        this.retrieveCustomer = this.retrieveCustomer(this);
+        this.createCustomer = this.createCustomer.bind(this);
+        this.retrieveCustomer = this.retrieveCustomer.bind(this)
     }
 
     config(publicKey, secretKey, apiVersion = "2015-11-17") {
@@ -90,7 +90,7 @@ class ReactNativeOmise {
         });
     }
 
-    createOmiseCustomer(data) {
+    createCustomer(data) {
         const customerEndpoint = apiEndpoint + "customers";
         // set headers
         let headers = this.getHeaders(_secretKey)
@@ -153,6 +153,6 @@ module.exports = {
     config: reactNativeOmise.config,
     createToken: reactNativeOmise.createToken,
     createSource: reactNativeOmise.createSource,
-    createCustomer: reactNativeOmise.createOmiseCustomer,
+    createCustomer: reactNativeOmise.createCustomer,
     retrieveCustomer: reactNativeOmise.retrieveCustomer
 }
