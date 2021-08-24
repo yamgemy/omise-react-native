@@ -12,6 +12,7 @@ class ReactNativeOmise {
         this.createCustomer = this.createCustomer.bind(this);
         this.retrieveCustomer = this.retrieveCustomer.bind(this);
         this.updateCustomer = this.updateCustomer.bind(this);
+        this.destroyCustomerCard = this.destroyCustomerCard.bind(this);
     }
 
     config(key, apiVersion = "2015-11-17") {
@@ -54,7 +55,7 @@ class ReactNativeOmise {
     }
 
     createSource(data) {
-        const sourceEndpoint = apiEndpoint + "sources";
+        const sourceEndpoint = `${apiEndpoint}sources`
         const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(sourceEndpoint, {
@@ -74,7 +75,7 @@ class ReactNativeOmise {
     }
 
     createCustomer(data) {
-        const customerEndpoint = apiEndpoint + "customers";
+        const customerEndpoint = `${apiEndpoint}customers`
         const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
@@ -94,7 +95,7 @@ class ReactNativeOmise {
     }
 
     retrieveCustomer(customerId) {
-        const customerEndpoint = apiEndpoint + "customers/" + customerId
+        const customerEndpoint = `${apiEndpoint}customers/${customerId}`
         const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
@@ -113,7 +114,7 @@ class ReactNativeOmise {
     }
 
     updateCustomer(customerId, data) {
-        const customerEndpoint = apiEndpoint + "customers/" + customerId
+        const customerEndpoint = `${apiEndpoint}customers/${customerId}`
         const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
@@ -121,6 +122,25 @@ class ReactNativeOmise {
                 cache: 'no-cache',
                 headers: headers,
                 body: JSON.stringify(data)
+            }).then((response) => {
+                if (response.ok && response.status === 200) {
+                    resolve(response.json());
+                } else {
+                    console.log("response not ok", response);
+                    reject(response.json());
+                }
+            }).catch((error) => resolve(error));
+        })
+    }
+
+    destroyCustomerCard(customerId, cardId) {
+        const customerEndpoint = `${apiEndpoint}customers/${customerId}/cards/${cardId}`
+        const headers = this.getHeaders(_key)
+        return new Promise((resolve, reject) => {
+            return fetch(customerEndpoint, {
+                method: 'DELETE',
+                cache: 'no-cache',
+                headers: headers
             }).then((response) => {
                 if (response.ok && response.status === 200) {
                     resolve(response.json());
@@ -142,5 +162,6 @@ module.exports = {
     createSource: reactNativeOmise.createSource,
     createCustomer: reactNativeOmise.createCustomer,
     retrieveCustomer: reactNativeOmise.retrieveCustomer,
-    updateCustomer: reactNativeOmise.updateCustomer
+    updateCustomer: reactNativeOmise.updateCustomer,
+    destroyCustomerCard: reactNativeOmise.destroyCustomerCard
 }
