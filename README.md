@@ -72,3 +72,9 @@ console.log('data', JSON.stringify(data));
 const data = await Omise.retrieveCustomer('cust_test_...');
 console.log('data', JSON.stringify(data));
 ```
+
+### Update a customer
+```
+const data = await Omise.updateCustomer('cust_test_...', { card: 'tokn_test_...' });
+console.log('data', JSON.stringify(data));
+```
