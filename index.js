@@ -110,6 +110,25 @@ class ReactNativeOmise {
             }).catch((error) => resolve(error));
         })
     }
+
+    updateCustomer(customerId, data) {
+        const customerEndpoint = apiEndpoint + "customers/" + customerId
+        const headers = this.getHeaders(_key)
+        return new Promise((resolve, reject) => {
+            return fetch(customerEndpoint, {
+                method: 'PATCH',
+                cache: 'no-cache',
+                headers: headers
+            }).then((response) => {
+                if (response.ok && response.status === 200) {
+                    resolve(response.json());
+                } else {
+                    console.log("response not ok", response);
+                    reject(response.json());
+                }
+            }).catch((error) => resolve(error));
+        })
+    }
 }
 
 
