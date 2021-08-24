@@ -5,7 +5,6 @@ const apiEndpoint = "https://api.omise.co/";
 
 let _key;
 let _apiVersion;
-let headers;
 class ReactNativeOmise {
     constructor() {
         this.createSource = this.createSource.bind(this);
@@ -17,7 +16,6 @@ class ReactNativeOmise {
     config(key, apiVersion = "2015-11-17") {
         _key = key
         _apiVersion = apiVersion;
-        headers = this.getHeaders(key)
     }
 
     getHeaders(key) {
@@ -36,6 +34,7 @@ class ReactNativeOmise {
 
     createToken(data) {
         const tokenEndpoint = vaultEndpoint + "tokens";
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(tokenEndpoint, {
                 method: 'POST',
@@ -55,6 +54,7 @@ class ReactNativeOmise {
 
     createSource(data) {
         const sourceEndpoint = apiEndpoint + "sources";
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(sourceEndpoint, {
                 method: 'POST',
@@ -74,6 +74,7 @@ class ReactNativeOmise {
 
     createCustomer(data) {
         const customerEndpoint = apiEndpoint + "customers";
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
                 method: 'POST',
@@ -93,6 +94,7 @@ class ReactNativeOmise {
 
     retrieveCustomer(customerId) {
         const customerEndpoint = apiEndpoint + "customers/" + customerId
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
                 method: 'GET',
