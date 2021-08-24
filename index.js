@@ -5,6 +5,7 @@ const apiEndpoint = "https://api.omise.co/";
 
 let _key;
 let _apiVersion;
+let headers;
 class ReactNativeOmise {
     constructor() {
         this.createSource = this.createSource.bind(this);
@@ -16,6 +17,7 @@ class ReactNativeOmise {
     config(key, apiVersion = "2015-11-17") {
         _key = key
         _apiVersion = apiVersion;
+        headers = this.getHeaders(key)
     }
 
     getHeaders(key) {
@@ -34,16 +36,7 @@ class ReactNativeOmise {
 
     createToken(data) {
         const tokenEndpoint = vaultEndpoint + "tokens";
-        // set headers
-        let headers = this.getHeaders(_key);
-
         return new Promise((resolve, reject) => {
-            // verify a public key
-            if (!_key || _key === "") {
-                reject("Please config your public key");
-                return;
-            }
-
             return fetch(tokenEndpoint, {
                 method: 'POST',
                 cache: 'no-cache',
@@ -62,16 +55,7 @@ class ReactNativeOmise {
 
     createSource(data) {
         const sourceEndpoint = apiEndpoint + "sources";
-        // set headers
-        let headers = this.getHeaders(_key);
-
         return new Promise((resolve, reject) => {
-            // verify a public key
-            if (!_key || _key === "") {
-                reject("Please config your public key");
-                return;
-            }
-
             return fetch(sourceEndpoint, {
                 method: 'POST',
                 cache: 'no-cache',
@@ -90,16 +74,7 @@ class ReactNativeOmise {
 
     createCustomer(data) {
         const customerEndpoint = apiEndpoint + "customers";
-        // set headers
-        let headers = this.getHeaders(_key)
-
         return new Promise((resolve, reject) => {
-            // verify a secret key
-            if (!_key || _key === "") {
-                reject("Please config your public key");
-                return;
-            }
-
             return fetch(customerEndpoint, {
                 method: 'POST',
                 cache: 'no-cache',
@@ -118,16 +93,7 @@ class ReactNativeOmise {
 
     retrieveCustomer(customerId) {
         const customerEndpoint = apiEndpoint + "customers/" + customerId
-        // set headers
-        let headers = this.getHeaders(_key)
-
         return new Promise((resolve, reject) => {
-            // verify a secret key
-            if (!_key || _key === "") {
-                reject("Please config your public key");
-                return;
-            }
-
             return fetch(customerEndpoint, {
                 method: 'POST',
                 cache: 'no-cache',
