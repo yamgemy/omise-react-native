@@ -3,8 +3,7 @@ const pkgConfig = require("./package.json");
 const vaultEndpoint = "https://vault.omise.co/";
 const apiEndpoint = "https://api.omise.co/";
 
-let _publicKey;
-let _secretKey;
+let _key;
 let _apiVersion;
 class ReactNativeOmise {
     constructor() {
@@ -14,9 +13,8 @@ class ReactNativeOmise {
         this.retrieveCustomer = this.retrieveCustomer.bind(this)
     }
 
-    config(publicKey, secretKey, apiVersion = "2015-11-17") {
-        _publicKey = publicKey;
-        _secretKey = secretKey;
+    config(key, apiVersion = "2015-11-17") {
+        _key = key
         _apiVersion = apiVersion;
     }
 
@@ -37,11 +35,11 @@ class ReactNativeOmise {
     createToken(data) {
         const tokenEndpoint = vaultEndpoint + "tokens";
         // set headers
-        let headers = this.getHeaders(_publicKey);
+        let headers = this.getHeaders(_key);
 
         return new Promise((resolve, reject) => {
             // verify a public key
-            if (!_publicKey || _publicKey === "") {
+            if (!_key || _key === "") {
                 reject("Please config your public key");
                 return;
             }
@@ -65,11 +63,11 @@ class ReactNativeOmise {
     createSource(data) {
         const sourceEndpoint = apiEndpoint + "sources";
         // set headers
-        let headers = this.getHeaders(_publicKey);
+        let headers = this.getHeaders(_key);
 
         return new Promise((resolve, reject) => {
             // verify a public key
-            if (!_publicKey || _publicKey === "") {
+            if (!_key || _key === "") {
                 reject("Please config your public key");
                 return;
             }
@@ -93,11 +91,11 @@ class ReactNativeOmise {
     createCustomer(data) {
         const customerEndpoint = apiEndpoint + "customers";
         // set headers
-        let headers = this.getHeaders(_secretKey)
+        let headers = this.getHeaders(_key)
 
         return new Promise((resolve, reject) => {
             // verify a secret key
-            if (!_secretKey || _secretKey === "") {
+            if (!_key || _key === "") {
                 reject("Please config your public key");
                 return;
             }
@@ -121,11 +119,11 @@ class ReactNativeOmise {
     retrieveCustomer(customerId) {
         const customerEndpoint = apiEndpoint + "customers/" + customerId
         // set headers
-        let headers = this.getHeaders(_secretKey)
+        let headers = this.getHeaders(_key)
 
         return new Promise((resolve, reject) => {
             // verify a secret key
-            if (!_secretKey || _secretKey === "") {
+            if (!_key || _key === "") {
                 reject("Please config your public key");
                 return;
             }
