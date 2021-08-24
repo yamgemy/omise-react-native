@@ -95,7 +95,7 @@ class ReactNativeOmise {
         const customerEndpoint = apiEndpoint + "customers/" + customerId
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
-                method: 'POST',
+                method: 'GET',
                 cache: 'no-cache',
                 headers: headers
             }).then((response) => {
