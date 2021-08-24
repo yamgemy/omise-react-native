@@ -3,41 +3,21 @@ const pkgConfig = require("./package.json");
 const vaultEndpoint = "https://vault.omise.co/";
 const apiEndpoint = "https://api.omise.co/";
 
-let _publicKey;
-let _secretKey;
+let _key;
 let _apiVersion;
-
-/**
- * ReactNativeOmise
- */
 class ReactNativeOmise {
-
-    /**
-     * constructor
-     */
     constructor() {
         this.createSource = this.createSource.bind(this);
         this.createToken = this.createToken.bind(this);
-        this.createCharge = this.createCharge.bind(this);
-        this.getCapabilities = this.getCapabilities.bind(this);
+        this.createCustomer = this.createCustomer.bind(this);
+        this.retrieveCustomer = this.retrieveCustomer.bind(this)
     }
 
-    /**
-     * To set a public key, secret key and API version
-     * @param {String} publicKey 
-     * @param {String} secretKey
-     * @param {String} apiVersion 
-     */
-    config(publicKey, secretKey, apiVersion = "2015-11-17") {
-        _publicKey = publicKey;
-        _secretKey = secretKey;
+    config(key, apiVersion = "2015-11-17") {
+        _key = key
         _apiVersion = apiVersion;
     }
 
-    /**
-     * Get headers
-     * @return {*} headers
-     */
     getHeaders(key) {
         let headers = {
             'Authorization': 'Basic ' + base64.encode(key + ":"),
@@ -52,24 +32,10 @@ class ReactNativeOmise {
         return headers;
     }
 
-    /**
-     * Create a token
-     * @param {*} data 
-     * 
-     * @return {*}
-     */
     createToken(data) {
         const tokenEndpoint = vaultEndpoint + "tokens";
-        // set headers
-        let headers = this.getHeaders(_publicKey);
-
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
-            // verify a public key
-            if (!_publicKey || _publicKey === "") {
-                reject("Please config your public key");
-                return;
-            }
-
             return fetch(tokenEndpoint, {
                 method: 'POST',
                 cache: 'no-cache',
@@ -86,24 +52,10 @@ class ReactNativeOmise {
         });
     }
 
-    /**
-     * Create a source
-     * @param {*} data 
-     * 
-     * @return {*}
-     */
     createSource(data) {
         const sourceEndpoint = apiEndpoint + "sources";
-        // set headers
-        let headers = this.getHeaders(_publicKey);
-
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
-            // verify a public key
-            if (!_publicKey || _publicKey === "") {
-                reject("Please config your public key");
-                return;
-            }
-
             return fetch(sourceEndpoint, {
                 method: 'POST',
                 cache: 'no-cache',
@@ -120,25 +72,11 @@ class ReactNativeOmise {
         });
     }
 
-    /**
-     * Create a charge
-     * @param {*} data
-     * 
-     * @returns 
-     */
-    createCharge(data) {
-        const chargeEndpoint = apiEndpoint + "charges";
-        // set headers
-        let headers = this.getHeaders(_secretKey);
-
+    createCustomer(data) {
+        const customerEndpoint = apiEndpoint + "customers";
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
-            // verify a secret key
-            if (!_secretKey || _secretKey === "") {
-                reject("Please config your secret key");
-                return;
-            }
-
-            return fetch(chargeEndpoint, {
+            return fetch(customerEndpoint, {
                 method: 'POST',
                 cache: 'no-cache',
                 headers: headers,
@@ -154,25 +92,14 @@ class ReactNativeOmise {
         });
     }
 
-    /**
-     * @return {*} 
-     */
-    getCapabilities() {
-        const sourceEndpoint = apiEndpoint + "capability";
-        // set headers
-        let headers = this.getHeaders();
-
+    retrieveCustomer(customerId) {
+        const customerEndpoint = apiEndpoint + "customers/" + customerId
+        const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
-            // verify a public key
-            if (!_publicKey || _publicKey === "") {
-                reject("Please config your public key");
-                return;
-            }
-
-            return fetch(sourceEndpoint, {
+            return fetch(customerEndpoint, {
                 method: 'GET',
                 cache: 'no-cache',
-                headers: headers,
+                headers: headers
             }).then((response) => {
                 if (response.ok && response.status === 200) {
                     resolve(response.json());
@@ -181,7 +108,7 @@ class ReactNativeOmise {
                     reject(response.json());
                 }
             }).catch((error) => resolve(error));
-        });
+        })
     }
 }
 
@@ -192,6 +119,6 @@ module.exports = {
     config: reactNativeOmise.config,
     createToken: reactNativeOmise.createToken,
     createSource: reactNativeOmise.createSource,
-    createCharge: reactNativeOmise.createCharge,
-    getCapabilities: reactNativeOmise.getCapabilities
+    createCustomer: reactNativeOmise.createCustomer,
+    retrieveCustomer: reactNativeOmise.retrieveCustomer
 }

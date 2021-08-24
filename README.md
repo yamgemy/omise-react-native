@@ -57,3 +57,18 @@ const data = await Omise.createCharge(
 if (data.paid) // success
 console.log('data', JSON.stringify(data));
 ```
+
+### Create a customer
+```
+const data = await Omise.createCustomer({
+    email: 'john.doe@example.com'
+});
+
+console.log('data', JSON.stringify(data));
+```
+
+### Retrieve a customer
+```
+const data = await Omise.retrieveCustomer('cust_test_...');
+console.log('data', JSON.stringify(data));
+```
