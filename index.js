@@ -10,7 +10,8 @@ class ReactNativeOmise {
         this.createSource = this.createSource.bind(this);
         this.createToken = this.createToken.bind(this);
         this.createCustomer = this.createCustomer.bind(this);
-        this.retrieveCustomer = this.retrieveCustomer.bind(this)
+        this.retrieveCustomer = this.retrieveCustomer.bind(this);
+        this.updateCustomer = this.updateCustomer.bind(this);
     }
 
     config(key, apiVersion = "2015-11-17") {
@@ -139,5 +140,6 @@ module.exports = {
     createToken: reactNativeOmise.createToken,
     createSource: reactNativeOmise.createSource,
     createCustomer: reactNativeOmise.createCustomer,
-    retrieveCustomer: reactNativeOmise.retrieveCustomer
+    retrieveCustomer: reactNativeOmise.retrieveCustomer,
+    updateCustomer: reactNativeOmise.updateCustomer
 }
