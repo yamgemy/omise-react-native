@@ -119,7 +119,8 @@ class ReactNativeOmise {
             return fetch(customerEndpoint, {
                 method: 'PATCH',
                 cache: 'no-cache',
-                headers: headers
+                headers: headers,
+                body: JSON.stringify(data)
             }).then((response) => {
                 if (response.ok && response.status === 200) {
                     resolve(response.json());
