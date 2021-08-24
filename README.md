@@ -78,3 +78,9 @@ console.log('data', JSON.stringify(data));
 const data = await Omise.updateCustomer('cust_test_...', { card: 'tokn_test_...' });
 console.log('data', JSON.stringify(data));
 ```
+
+### Destroy a card
+```
+const data = await Omise.destroyCustomerCard('cust_test_...', { card: 'card_test_...' });
+console.log('data', JSON.stringify(data));
+```
