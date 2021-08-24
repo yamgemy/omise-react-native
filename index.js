@@ -18,7 +18,6 @@ class ReactNativeOmise {
     constructor() {
         this.createSource = this.createSource.bind(this);
         this.createToken = this.createToken.bind(this);
-        this.getCapabilities = this.getCapabilities.bind(this);
     }
 
     /**
@@ -118,36 +117,6 @@ class ReactNativeOmise {
             }).catch((error) => resolve(error));
         });
     }
-
-    /**
-     * @return {*} 
-     */
-    getCapabilities() {
-        const sourceEndpoint = apiEndpoint + "capability";
-        // set headers
-        let headers = this.getHeaders();
-
-        return new Promise((resolve, reject) => {
-            // verify a public key
-            if (!_publicKey || _publicKey === "") {
-                reject("Please config your public key");
-                return;
-            }
-
-            return fetch(sourceEndpoint, {
-                method: 'GET',
-                cache: 'no-cache',
-                headers: headers,
-            }).then((response) => {
-                if (response.ok && response.status === 200) {
-                    resolve(response.json());
-                } else {
-                    console.log("response not ok", response);
-                    reject(response.json());
-                }
-            }).catch((error) => resolve(error));
-        });
-    }
 }
 
 
@@ -156,6 +125,5 @@ const reactNativeOmise = new ReactNativeOmise();
 module.exports = {
     config: reactNativeOmise.config,
     createToken: reactNativeOmise.createToken,
-    createSource: reactNativeOmise.createSource,
-    getCapabilities: reactNativeOmise.getCapabilities
+    createSource: reactNativeOmise.createSource
 }
