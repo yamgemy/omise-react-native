@@ -18,7 +18,6 @@ class ReactNativeOmise {
     constructor() {
         this.createSource = this.createSource.bind(this);
         this.createToken = this.createToken.bind(this);
-        this.createCharge = this.createCharge.bind(this);
         this.getCapabilities = this.getCapabilities.bind(this);
     }
 
@@ -121,40 +120,6 @@ class ReactNativeOmise {
     }
 
     /**
-     * Create a charge
-     * @param {*} data
-     * 
-     * @returns 
-     */
-    createCharge(data) {
-        const chargeEndpoint = apiEndpoint + "charges";
-        // set headers
-        let headers = this.getHeaders(_secretKey);
-
-        return new Promise((resolve, reject) => {
-            // verify a secret key
-            if (!_secretKey || _secretKey === "") {
-                reject("Please config your secret key");
-                return;
-            }
-
-            return fetch(chargeEndpoint, {
-                method: 'POST',
-                cache: 'no-cache',
-                headers: headers,
-                body: JSON.stringify(data)
-            }).then((response) => {
-                if (response.ok && response.status === 200) {
-                    resolve(response.json());
-                } else {
-                    console.log("response not ok", response);
-                    reject(response.json());
-                }
-            }).catch((error) => resolve(error));
-        });
-    }
-
-    /**
      * @return {*} 
      */
     getCapabilities() {
@@ -192,6 +157,5 @@ module.exports = {
     config: reactNativeOmise.config,
     createToken: reactNativeOmise.createToken,
     createSource: reactNativeOmise.createSource,
-    createCharge: reactNativeOmise.createCharge,
     getCapabilities: reactNativeOmise.getCapabilities
 }
