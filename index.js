@@ -155,6 +155,7 @@ class ReactNativeOmise {
 
     createChargeByToken(data) {
         const chargeEndpoint = `${apiEndpoint}charges`;
+        const headers = this.getHeaders(_key)``
         return new Promise((resolve, reject) => {
             return fetch(chargeEndpoint, {
                 method: 'POST',
