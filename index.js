@@ -13,6 +13,7 @@ class ReactNativeOmise {
         this.retrieveCustomer = this.retrieveCustomer.bind(this);
         this.updateCustomer = this.updateCustomer.bind(this);
         this.destroyCustomerCard = this.destroyCustomerCard.bind(this);
+        this.createChargeByToken = this.createChargeByToken.bind(this);
     }
 
     config(key, apiVersion = "2015-11-17") {
@@ -151,6 +152,26 @@ class ReactNativeOmise {
             }).catch((error) => resolve(error));
         })
     }
+
+    createChargeByToken(data) {
+        const chargeEndpoint = `${apiEndpoint}charges`;
+        return new Promise((resolve, reject) => {
+            return fetch(chargeEndpoint, {
+                method: 'POST',
+                cache: 'no-cache',
+                headers: headers,
+                body: JSON.stringify(data)
+            }).then((response) => {
+                if (response.ok && response.status === 200) {
+                    resolve(response.json());
+                } else {
+                    console.log("response not ok", response);
+                    reject(response.json());
+                }
+            }).catch((error) => resolve(error));
+        });
+    }
+
 }
 
 
@@ -163,5 +184,6 @@ module.exports = {
     createCustomer: reactNativeOmise.createCustomer,
     retrieveCustomer: reactNativeOmise.retrieveCustomer,
     updateCustomer: reactNativeOmise.updateCustomer,
-    destroyCustomerCard: reactNativeOmise.destroyCustomerCard
+    destroyCustomerCard: reactNativeOmise.destroyCustomerCard,
+    createChargeByToken: reactNativeOmise.createChargeByToken
 }
