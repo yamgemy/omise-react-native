@@ -3,7 +3,8 @@ const pkgConfig = require("./package.json");
 const vaultEndpoint = "https://vault.omise.co/";
 const apiEndpoint = "https://api.omise.co/";
 
-let _key;
+let PUBLIC_KEY;
+let SECRET_KEY;
 let _apiVersion;
 class ReactNativeOmise {
     constructor() {
@@ -16,8 +17,9 @@ class ReactNativeOmise {
         this.createChargeByToken = this.createChargeByToken.bind(this);
     }
 
-    config(key, apiVersion = "2015-11-17") {
-        _key = key
+    config(pKey, sKey, apiVersion = "2015-11-17") {
+        PUBLIC_KEY = pKey;
+        SECRET_KEY = sKey;
         _apiVersion = apiVersion;
     }
 
@@ -37,7 +39,7 @@ class ReactNativeOmise {
 
     createToken(data) {
         const tokenEndpoint = vaultEndpoint + "tokens";
-        const headers = this.getHeaders(_key)
+        const headers = this.getHeaders(PUBLIC_KEY)
         return new Promise((resolve, reject) => {
             return fetch(tokenEndpoint, {
                 method: 'POST',
@@ -57,7 +59,7 @@ class ReactNativeOmise {
 
     createSource(data) {
         const sourceEndpoint = `${apiEndpoint}sources`
-        const headers = this.getHeaders(_key)
+        const headers = this.getHeaders(PUBLIC_KEY)
         return new Promise((resolve, reject) => {
             return fetch(sourceEndpoint, {
                 method: 'POST',
@@ -77,7 +79,7 @@ class ReactNativeOmise {
 
     createCustomer(data) {
         const customerEndpoint = `${apiEndpoint}customers`
-        const headers = this.getHeaders(_key)
+        const headers = this.getHeaders(PUBLIC_KEY)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
                 method: 'POST',
@@ -97,7 +99,7 @@ class ReactNativeOmise {
 
     retrieveCustomer(customerId) {
         const customerEndpoint = `${apiEndpoint}customers/${customerId}`
-        const headers = this.getHeaders(_key)
+        const headers = this.getHeaders(PUBLIC_KEY)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
                 method: 'GET',
@@ -116,7 +118,7 @@ class ReactNativeOmise {
 
     updateCustomer(customerId, data) {
         const customerEndpoint = `${apiEndpoint}customers/${customerId}`
-        const headers = this.getHeaders(_key)
+        const headers = this.getHeaders(PUBLIC_KEY)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
                 method: 'PATCH',
@@ -136,7 +138,7 @@ class ReactNativeOmise {
 
     destroyCustomerCard(customerId, cardId) {
         const customerEndpoint = `${apiEndpoint}customers/${customerId}/cards/${cardId}`
-        const headers = this.getHeaders(_key)
+        const headers = this.getHeaders(PUBLIC_KEY)
         return new Promise((resolve, reject) => {
             return fetch(customerEndpoint, {
                 method: 'DELETE',
@@ -155,7 +157,7 @@ class ReactNativeOmise {
 
     createChargeByToken(data) {
         const chargeEndpoint = `${apiEndpoint}charges`;
-        const headers = this.getHeaders(_key);
+        const headers = this.getHeaders(SECRET_KEY);
         return new Promise((resolve, reject) => {
             return fetch(chargeEndpoint, {
                 method: 'POST',
